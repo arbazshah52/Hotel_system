@@ -80,14 +80,34 @@ while (running)
         Console.Clear();
         Console.WriteLine("=== Hotel System ===");
         Console.WriteLine($"Welcome, {active_user.Username}!");
+        Console.WriteLine("[1] - See rooms with guests");
+        Console.WriteLine("[L] - Logout");
         Console.WriteLine("[q] - quit");
+        String? choice = Console.ReadLine();
+        switch (choice)
+        {
+            case "1":
+                Console.Clear();
+                Console.WriteLine("Rooms currently with guests:");
+                foreach (Room room in rooms)
+                {
+                    if (room.Status == RoomStatus.Occupied)
+                    {
+                        Console.WriteLine($"Room {room.Number} - Guest: {room.GuestName}");
+                    }
+                }
+                Console.WriteLine("Press ENTER to continue...");
+                Console.ReadLine();
+                break;
 
-	    switch(Console.ReadLine())
-	    {
-		    case "q": running = false; break;
-	    }
+            case "L":
+                active_user = null;
+                break;
 
+            case "Q":
+                running = false;
+                break;
+        }
     }
 }
-
 
