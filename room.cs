@@ -12,4 +12,8 @@ class Room
         Status = RoomStatus.Available; // Reference to enum
         GuestName = "";
     }
+   public string ToSaveString()
+    {
+        return $"{Number},{GuestName},{Status}";
+    }
 }

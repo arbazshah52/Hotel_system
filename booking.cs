@@ -13,12 +13,6 @@ class Booking
         Status = BookingStatus.Pending;
     }
 }
-enum Roomstatus
-{
-    Available,
-    Occupied,
-    Unavilable,
-}
 enum BookingStatus
 {
     Pending,

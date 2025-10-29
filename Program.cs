@@ -9,7 +9,6 @@ using System.Diagnostics;
 
 List<User> users = new();
 User? active_user = null;
-
 //  Load users from file if it exists
 if (File.Exists("users.save"))
 {
@@ -81,6 +80,8 @@ while (running)
         Console.WriteLine("=== Hotel System ===");
         Console.WriteLine($"Welcome, {active_user.Username}!");
         Console.WriteLine("[1] - See rooms with guests");
+        Console.WriteLine("[2] - See avilable rooms");
+        Console.WriteLine("[3] - Book a guest into a available room");  
         Console.WriteLine("[L] - Logout");
         Console.WriteLine("[q] - quit");
         String? choice = Console.ReadLine();
@@ -111,15 +112,61 @@ while (running)
              }
              Console.WriteLine("Press ENTER to continue...");
              Console.ReadLine();
-             break;
+                break;
+            case "3":
+            Console.Clear();
+            Console.WriteLine("Book a guest into a available room");
+                foreach (Room room in rooms)
+                {
+                    if (room.Status == RoomStatus.Available)
+                    {
+                        Console.WriteLine($"Room {room.Number}is Avilable");
+                    }
+                }
+            Console.Write("Enter the room number to book: ");
+             string? roomInput = Console.ReadLine();
+            Console.Write("Enter guest name: ");
+            string? guestName = Console.ReadLine();
 
-         case "L":
-             active_user = null;
-             break;
+            if (int.TryParse(roomInput, out int roomNumber))
+            {
+                Room? selectedRoom = rooms.Find(r => r.Number == roomNumber);
+                    if (selectedRoom != null && selectedRoom.Status == RoomStatus.Available)
+                    {
+                        selectedRoom.GuestName = guestName ?? "Unknown";
+                        selectedRoom.Status = RoomStatus.Occupied;
+                        // Save rooms to file
+                        string[] saveRooms = new string[rooms.Count];
+                        for (int i = 0; i < rooms.Count; i++)
+                           saveRooms[i] = rooms[i].ToSaveString();
+                        File.WriteAllLines("rooms.save", saveRooms);
+
+                Console.WriteLine($" Room {roomNumber} successfully booked for {guestName}!");
+            }
+            else
+            {
+            Console.WriteLine(" Room not available or does not exist.");
+            }
+        }
+         else
+        {
+             Console.WriteLine("Invalid room number.");
+        }
+
+        Console.WriteLine("Press ENTER to return to menu...");
+        Console.ReadLine();
+        break; 
+          case "L":
+            active_user = null;
+            break;
 
          case "Q":
-              running = false;
-              break;
+            running = false;
+            break;
+         default:
+        Console.WriteLine("Invalid choice. Press ENTER...");
+        Console.ReadLine();
+            break;
         }
     }
 }
