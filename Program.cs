@@ -81,7 +81,8 @@ while (running)
         Console.WriteLine($"Welcome, {active_user.Username}!");
         Console.WriteLine("[1] - See rooms with guests");
         Console.WriteLine("[2] - See avilable rooms");
-        Console.WriteLine("[3] - Book a guest into a available room");  
+        Console.WriteLine("[3] - Book a guest into a available room"); 
+        Console.WriteLine("[4] - Check out a guest from an occupied room");  
         Console.WriteLine("[L] - Logout");
         Console.WriteLine("[q] - quit");
         String? choice = Console.ReadLine();
@@ -141,7 +142,7 @@ while (running)
                            saveRooms[i] = rooms[i].ToSaveString();
                         File.WriteAllLines("rooms.save", saveRooms);
 
-                Console.WriteLine($" Room {roomNumber} successfully booked for {guestName}!");
+            Console.WriteLine($" Room {roomNumber} successfully booked for {guestName}!");
             }
             else
             {
@@ -153,9 +154,51 @@ while (running)
              Console.WriteLine("Invalid room number.");
         }
 
-        Console.WriteLine("Press ENTER to return to menu...");
-        Console.ReadLine();
-        break; 
+             Console.WriteLine("Press ENTER to return to menu...");
+             Console.ReadLine();
+                break; 
+            case "4":
+            Console.Clear();
+            Console.WriteLine("checkout guest");
+                foreach (Room room in rooms)
+                {
+                    if (room.Status == RoomStatus.Available)
+                    {
+                        Console.WriteLine($"Room {room.Number}is Avilable");
+                    }
+                }
+            Console.Write("Enter the room number to book checkout: ");
+            roomInput = Console.ReadLine();
+            Console.Write("Enter guest name: ");
+
+            if (int.TryParse(roomInput, out roomNumber))
+            {
+                Room? selectedRoom = rooms.Find(r => r.Number == roomNumber);
+                    if (selectedRoom != null && selectedRoom.Status == RoomStatus.Available)
+                    {
+                       Console.WriteLine($"Guest {selectedRoom.GuestName} has been checked out from Room {roomNumber}.");
+                       selectedRoom.GuestName = "";
+                       selectedRoom.Status = RoomStatus.Available;
+                        // Save rooms to file
+                        string[] saveRooms = new string[rooms.Count];
+                        for (int i = 0; i < rooms.Count; i++)
+                           saveRooms[i] = rooms[i].ToSaveString();
+                        File.WriteAllLines("rooms.save", saveRooms);
+                 }
+            else
+            {
+            Console.WriteLine(" Room is not occupied or does not exist.");
+            }
+        }
+         else
+        {
+             Console.WriteLine("Invalid room number.");
+        }
+
+             Console.WriteLine("Press ENTER to return to menu...");
+             Console.ReadLine();
+                break;       
+
           case "L":
             active_user = null;
             break;
