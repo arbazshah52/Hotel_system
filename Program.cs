@@ -25,15 +25,26 @@ if (File.Exists("users.save"))
 }
 else
 {
-    Console.WriteLine("No saved users found. Creating default admin...");
     users.Add(new User("admin", "admin"));
     File.WriteAllLines("users.save", new string[] { "admin,admin" });
 }
+// --- ROOMS ---
+List<Room> rooms = new List<Room>
+{
+    new Room(1),
+    new Room(2),
+    new Room(3)
+};
+// Assign some guests to rooms
+rooms[0].GuestName = "arbaz";
+rooms[0].Status = RoomStatus.Occupied;
+rooms[2].GuestName = "shah";
+rooms[2].Status = RoomStatus.Occupied;
+
 bool running = true;
 while (running)
 {
     Console.Clear();
-
     if (active_user == null)
     {
         Console.WriteLine("=== Hotel System Login ===");
@@ -65,6 +76,7 @@ while (running)
     }
     else
     {
+        ///Main Menu
         Console.Clear();
         Console.WriteLine("=== Hotel System ===");
         Console.WriteLine($"Welcome, {active_user.Username}!");
