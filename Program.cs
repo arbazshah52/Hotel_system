@@ -86,27 +86,40 @@ while (running)
         String? choice = Console.ReadLine();
         switch (choice)
         {
-            case "1":
-                Console.Clear();
-                Console.WriteLine("Rooms currently with guests:");
-                foreach (Room room in rooms)
-                {
-                    if (room.Status == RoomStatus.Occupied)
-                    {
-                        Console.WriteLine($"Room {room.Number} - Guest: {room.GuestName}");
-                    }
+        case "1":
+           Console.Clear();
+           Console.WriteLine("Rooms currently with guests:");
+           foreach (Room room in rooms)
+           {
+               if (room.Status == RoomStatus.Occupied)
+               {
+                  Console.WriteLine($"Room {room.Number} - Guest: {room.GuestName}");
+               }
+            }
+            Console.WriteLine("Press ENTER to continue...");
+            Console.ReadLine();
+            break;
+         case "2":
+            Console.Clear();
+            Console.WriteLine("Available rooms:");
+            foreach (Room room in rooms)
+            {
+                if (room.Status == RoomStatus.Available)
+                  {
+                  Console.WriteLine($"Room {room.Number}");
                 }
-                Console.WriteLine("Press ENTER to continue...");
-                Console.ReadLine();
-                break;
+             }
+             Console.WriteLine("Press ENTER to continue...");
+             Console.ReadLine();
+             break;
 
-            case "L":
-                active_user = null;
-                break;
+         case "L":
+             active_user = null;
+             break;
 
-            case "Q":
-                running = false;
-                break;
+         case "Q":
+              running = false;
+              break;
         }
     }
 }
