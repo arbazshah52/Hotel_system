@@ -81,8 +81,9 @@ while (running)
         Console.WriteLine($"Welcome, {active_user.Username}!");
         Console.WriteLine("[1] - See rooms with guests");
         Console.WriteLine("[2] - See avilable rooms");
-        Console.WriteLine("[3] - Book a guest into a available room"); 
-        Console.WriteLine("[4] - Check out a guest from an occupied room");  
+        Console.WriteLine("[3] - Book a guest into a available room");
+        Console.WriteLine("[4] - Check out a guest from an occupied room");
+        Console.WriteLine("[5] - Mark a Room as Temporarily Unavailable"); 
         Console.WriteLine("[L] - Logout");
         Console.WriteLine("[q] - quit");
         String? choice = Console.ReadLine();
@@ -153,7 +154,6 @@ while (running)
         {
              Console.WriteLine("Invalid room number.");
         }
-
              Console.WriteLine("Press ENTER to return to menu...");
              Console.ReadLine();
                 break; 
@@ -196,8 +196,46 @@ while (running)
         }
 
              Console.WriteLine("Press ENTER to return to menu...");
-             Console.ReadLine();
-                break;       
+                Console.ReadLine();
+                break;
+                      case "5":
+            Console.Clear();
+            Console.WriteLine("Mark a Room as a Temporarily Unavailable ");
+                foreach (Room room in rooms)
+                {
+                    if (room.Status == RoomStatus.Available)
+                    {
+                        Console.WriteLine($"Room {room.Number}is Avilable");
+                    }
+                }
+            Console.Write("Enter the room number to mark as unavailable:");
+            string? roomInputUnavailable = Console.ReadLine();
+            if (int.TryParse(roomInputUnavailable, out int roomNumberUnavailable))
+            {
+                Room? selectedRoom = rooms.Find(r => r.Number == roomNumberUnavailable);
+                    if (selectedRoom != null && selectedRoom.Status == RoomStatus.Available)
+                    {
+                       selectedRoom.Status = RoomStatus.Unavailable;
+                        // Save rooms to file
+                        string[] saveRooms = new string[rooms.Count];
+                        for (int i = 0; i < rooms.Count; i++)
+                           saveRooms[i] = rooms[i].ToSaveString();
+                        File.WriteAllLines("rooms.save", saveRooms);
+            Console.WriteLine($"Room {roomNumberUnavailable} is now marked as temporarily unavailable.");
+                 }
+            else
+            {
+            Console.WriteLine(" Room is not Available or does not exist.");
+            }
+        }
+         else
+        {
+             Console.WriteLine("Invalid room number.");
+        }
+
+             Console.WriteLine("Press ENTER to return to menu...");
+                Console.ReadLine();
+                break;             
 
           case "L":
             active_user = null;
