@@ -10,10 +10,26 @@ using System.Diagnostics;
 List<User> users = new();
 User? active_user = null;
 
-
-
+//  Load users from file if it exists
+if (File.Exists("users.save"))
+{
+    string[] lines = File.ReadAllLines("users.save");
+    foreach (string line in lines)
+    {
+        string[] data = line.Split(",");
+        if (data.Length == 2)
+        {
+            users.Add(new User(data[0], data[1]));
+        }
+    }
+}
+else
+{
+    Console.WriteLine("No saved users found. Creating default admin...");
+    users.Add(new User("admin", "admin"));
+    File.WriteAllLines("users.save", new string[] { "admin,admin" });
+}
 bool running = true;
-
 while (running)
 {
     Console.Clear();
@@ -51,8 +67,8 @@ while (running)
     {
         Console.Clear();
         Console.WriteLine("=== Hotel System ===");
-
-	    Console.WriteLine("[q] - quit");
+        Console.WriteLine($"Welcome, {active_user.Username}!");
+        Console.WriteLine("[q] - quit");
 
 	    switch(Console.ReadLine())
 	    {
