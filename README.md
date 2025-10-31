@@ -37,7 +37,6 @@ It allows a receptionist to manage hotel rooms, track guest occupied, and update
      [5] - Mark a Room as Temporarily Unavailable
      [L] - Logout
      [q] - quit
-     ```
    - Logout and quit options are available.
 ## Classes
 | Class Name      | File Name       | Description                                                                 |
