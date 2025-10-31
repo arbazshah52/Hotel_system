@@ -50,3 +50,14 @@ It allows a receptionist to manage hotel rooms, track guest occupied, and update
 
 ## How to Run
 1. cd Hotel_system
+2. open terminal in the project folder 
+3. Run: dotnet run Follow the menu prompts to interact with the system
+4. net 8.0
+5. Visual studio code
+
+## Author Name
+Syed Arbaz Hussain shah
+Student| NBI 
+
+I attached my project picture!
+![alt text](<Screenshot 2025-10-31 at 23.04.48-1.png>))
